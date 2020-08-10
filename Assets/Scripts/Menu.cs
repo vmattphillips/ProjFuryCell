@@ -6,17 +6,23 @@ using UnityEngine.UI;
 public class Menu : MonoBehaviour
 {
     public GameObject pauseUI;
+    public GameObject Controls;
     //private bool gamePaused;
     // Start is called before the first frame update
     void Start()
     {
         pauseUI.SetActive(false);
+        Controls.SetActive(true);
         //gamePaused = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.anyKeyDown)
+        {
+            Controls.SetActive(false);
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("Esc Pressed!");
