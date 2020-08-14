@@ -9,14 +9,14 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float speed, jumpSpeed;
     public int totalAirJumps = 1;
-    public float doubleClickCooldown = 0.5f; // Half a second for double clicks
 
+    private float lastDClickTime;
     private int airJumpsRemaining;
-    private int aCount, dCount;
     private float distToGround;
     private Rigidbody rb;
     private Collider col;
     private float grav = WorldRules.Gravity;
+    private float currentSpeed;
     //public GameObject hitbox;
 
     void Awake()
@@ -33,13 +33,20 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         GetMovementInputs();
+    }
 
+    void FixedUpdate()
+    {
         if(!IsGrounded())
         {
+            // Less floaty jumping and falling
             rb.AddForce(new Vector2(0, -grav), ForceMode.Acceleration);
+            if(rb.velocity.y < 0) // Pulls you down even faster after you reach peak
+                rb.AddForce(new Vector2(0, -grav), ForceMode.Acceleration);
+
         }
         else
         {
@@ -50,41 +57,6 @@ public class Player : MonoBehaviour
     void GetMovementInputs()
     {
 
-#region Sprinting
-        if(Input.GetKeyDown(KeyCode.D))
-        {
-            if(doubleClickCooldown > 0 && dCount == 1/*Number of Taps you want Minus One*/)
-            {
-                Debug.Log("Sprinting to the Right");
-            }
-            else
-            {
-                doubleClickCooldown = 0.5f;
-                dCount += 1;
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            if(doubleClickCooldown > 0 && aCount == 1/*Number of Taps you want Minus One*/)
-            {
-                Debug.Log("Sprinting to the Left");
-            }
-            else
-            {
-                doubleClickCooldown = 0.5f;
-                aCount += 1;
-            }
-        }
-        if(doubleClickCooldown > 0)
-            doubleClickCooldown -= 1 * Time.deltaTime;
-        else
-        {
-            dCount = 0;
-            aCount = 0;
-        }
-#endregion
-
-#region WASD
         //  Reading Movement Value
         float LR_Movement = 0f;
         float UpDwn_Movement = 0f;
@@ -99,7 +71,6 @@ public class Player : MonoBehaviour
             UpDwn_Movement = -1f;
         if(Input.GetKeyDown(KeyCode.Space))
             Jump();
-#endregion
         
         // Move Player
         Vector3 currPos = transform.position;

@@ -2041,9 +2041,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 7
-  jumpSpeed: 17
+  jumpSpeed: 15
   totalAirJumps: 1
-  doubleClickCooldown: 0.5
 --- !u!65 &2050312757
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2051,7 +2050,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2050312755}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 3d8335acdeb7b6948a53856c1e8ea04b, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
