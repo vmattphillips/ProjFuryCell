@@ -2040,8 +2040,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d7363cbd7cb148438cf79d192548917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  currentSpeed: 0
   jumpSpeed: 15
+  sprintSpeed: 15
+  walkSpeed: 10
   totalAirJumps: 1
 --- !u!65 &2050312757
 BoxCollider:

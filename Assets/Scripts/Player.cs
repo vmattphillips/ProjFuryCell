@@ -7,16 +7,15 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    [SerializeField] private float speed, jumpSpeed;
+    [SerializeField] private float currentSpeed, jumpSpeed, sprintSpeed, walkSpeed;
     public int totalAirJumps = 1;
 
-    private float lastDClickTime;
+    private float lastADClickTime;
     private int airJumpsRemaining;
     private float distToGround;
     private Rigidbody rb;
     private Collider col;
     private float grav = WorldRules.Gravity;
-    private float currentSpeed;
     //public GameObject hitbox;
 
     void Awake()
@@ -29,15 +28,17 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-
+        currentSpeed = walkSpeed;
     }
 
     // Update is called once per frame
+    // For Taking input
     void Update()
     {
         GetMovementInputs();
     }
 
+    // For physics stuff
     void FixedUpdate()
     {
         if(!IsGrounded())
@@ -73,11 +74,28 @@ public class Player : MonoBehaviour
             Jump();
         
         // Move Player
+        SprintingModifier();
         Vector3 currPos = transform.position;
-        currPos.x += LR_Movement * speed * Time.deltaTime;
-        currPos.z += UpDwn_Movement * speed * Time.deltaTime;
+        currPos.x += LR_Movement * currentSpeed * Time.deltaTime;
+        currPos.z += UpDwn_Movement * currentSpeed * Time.deltaTime;
         
         transform.position = currPos;
+    }
+
+    void SprintingModifier()
+    {
+        if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A))
+        {
+            if((Time.time - lastADClickTime) < 0.3)
+            {
+                currentSpeed = sprintSpeed;
+            }
+            lastADClickTime = Time.time;
+        }
+        if(Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A))
+        {
+            currentSpeed = walkSpeed;
+        }
     }
 
     bool IsGrounded()
