@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float currentSpeed, jumpSpeed, sprintSpeed, walkSpeed;
     public int totalAirJumps = 1;
+    public GameObject hitBox;
 
     private float lastADClickTime;
     private int airJumpsRemaining;
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
         col = GetComponent<Collider>();
         distToGround = col.bounds.extents.y;
         rb.freezeRotation = true;
-        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        hitBox.SetActive(false);
     }
 
     void Start()
@@ -37,6 +38,17 @@ public class Player : MonoBehaviour
     void Update()
     {
         GetMovementInputs();
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("MouseDown");
+            hitBox.SetActive(true);
+        }
+        if(Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("MouseUp");
+            hitBox.SetActive(false);
+        }
     }
 
     // For physics stuff
