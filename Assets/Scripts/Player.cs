@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
         col = GetComponent<Collider>();
         distToGround = col.bounds.extents.y;
         rb.freezeRotation = true;
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
     }
 
     void Start()
